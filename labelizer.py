@@ -22,11 +22,12 @@ def paint(e):
 
 def previous():
     global history, numberHistory
-    for lastx, lasty, x, y in history[numberHistory]:
-        draw.line((lastx, lasty, x, y), fill="black", width=3)
+    if history:
+       for lastx, lasty, x, y in history[numberHistory]:
+           draw.line((lastx, lasty, x, y), fill="black", width=3)
 
-    history.pop(history)
-    numberHistory-=1
+       history.pop()
+       numberHistory-=1
 
 def labelizer(image):
     global cv, draw, label, root, history, numberHistory, color
