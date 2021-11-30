@@ -5,10 +5,9 @@ def done():
     root.destroy()
 
 def activate_paint(e):
-    global lastx, lasty, label, numberHistory
+    global lastx, lasty, numberHistory
     cv.bind('<B1-Motion>', paint)
     lastx, lasty = e.x, e.y
-    label+=1
     numberHistory+=1
     history.append([])
 
@@ -29,6 +28,14 @@ def previous():
        history.pop()
        numberHistory-=1
 
+def changeLabel(event):
+    global label
+    if event.num == 5 or event.delta == -120:
+        label -= 1
+    if event.num == 4 or event.delta == 120:
+        label += 1
+    print(label)
+
 def labelizer(image):
     global cv, draw, label, root, history, numberHistory, color
     color=["yellow","red","blue","white","pink","orange","purple","brown","green"]
@@ -43,6 +50,9 @@ def labelizer(image):
     image1 = Image.new('L', (image.width, image.height), 'black')
     draw = ImageDraw.Draw(image1)
     cv.bind('<1>', activate_paint)
+    cv.bind('<MouseWheel>', changeLabel)
+    cv.bind('<Button-4>', changeLabel)
+    cv.bind('<Button-5>', changeLabel)
     btn_save = Button(text="done", command=done)
     btn_save.pack()
     btn_previous = Button(text="previous", command=previous)
